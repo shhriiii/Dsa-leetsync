@@ -26,7 +26,6 @@ public:
             else dec[i] = false;
         }
 
-        // test all splits
         long long ans = LLONG_MAX;
         for (int i = 0; i < n-1; i++) {
             if (inc[i] && dec[i+1]) {
