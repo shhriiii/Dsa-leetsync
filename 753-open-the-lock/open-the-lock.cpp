@@ -9,14 +9,14 @@ public:
         if (target == "0000") return 0;
 
 
-        priority_queue<pair<int, string>, vector<pair<int, string>>, greater<pair<int, string>>> pq;
+        queue<pair<int, string>> pq;
         pq.push({0, "0000"});
 
         set<string> vis;
         vis.insert("0000");
 
         while (!pq.empty()) {
-            auto [step, curr] = pq.top();
+            auto [step, curr] = pq.front();
             pq.pop();
 
             if (curr == target)
