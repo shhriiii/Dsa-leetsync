@@ -1,57 +1,28 @@
 class Solution {
 public:
-    const int UNGUARDED = 0;
-    const int GUARDED = 1;
-    const int GUARD = 2;
-    const int WALL = 3;
-
-    void markguarded(int row, int col, vector<vector<int>>& grid) {
-        // Traverse upwards
-        for (int r = row - 1; r >= 0; r--) {
-            if (grid[r][col] == WALL || grid[r][col] == GUARD) break;
-            grid[r][col] = GUARDED;
-        }
-        // Traverse downwards
-        for (int r = row + 1; r < grid.size(); r++) {
-            if (grid[r][col] == WALL || grid[r][col] == GUARD) break;
-            grid[r][col] = GUARDED;
-        }
-        // Traverse leftwards
-        for (int c = col - 1; c >= 0; c--) {
-            if (grid[row][c] == WALL || grid[row][c] == GUARD) break;
-            grid[row][c] = GUARDED;
-        }
-        // Traverse rightwards
-        for (int c = col + 1; c < grid[row].size(); c++) {
-            if (grid[row][c] == WALL || grid[row][c] == GUARD) break;
-            grid[row][c] = GUARDED;
-        }
-    }
-
     int countUnguarded(int m, int n, vector<vector<int>>& guards,
                        vector<vector<int>>& walls) {
-        vector<vector<int>> grid(m, vector<int>(n, UNGUARDED));
-
-        // Mark guards' positions
-        for (const auto& guard : guards) {
-            grid[guard[0]][guard[1]] = GUARD;
+        vector<vector<int>> grid(m, vector<int>(n, 0)); // 0-empty, 1-wall, 2-guard, 
+        for (auto &w : walls) grid[w[0]][w[1]] = 1;
+        for (auto &g : guards) grid[g[0]][g[1]] = 2;
+        int dr[4] = {0, 0, -1, 1};
+        int dc[4] = {1, -1, 0, 0};
+        for (auto &g : guards) {
+            int r = g[0], c = g[1];
+            for (int d = 0; d < 4; d++) {
+                int nr = r + dr[d], nc = c + dc[d];
+                while (nr >= 0 && nr < m && nc >= 0 && nc < n) {
+                    if (grid[nr][nc] == 1 || grid[nr][nc] == 2) break; 
+                    if (grid[nr][nc] == 0) grid[nr][nc] = 3;
+                    nr += dr[d]; nc += dc[d];
+                }
+            }
         }
 
-        // Mark walls' positions
-        for (const auto& wall : walls) {
-            grid[wall[0]][wall[1]] = WALL;
-        }
-
-        // Mark cells as guarded by traversing from each guard
-        for (const auto& guard : guards) {
-            markguarded(guard[0], guard[1], grid);
-        }
-
-        // Count unguarded cells
         int count = 0;
-        for (const auto& row : grid) {
-            for (const auto& cell : row) {
-                if (cell == UNGUARDED) count++;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] == 0) count++;
             }
         }
         return count;
