@@ -8,7 +8,7 @@ public:
             mp[nums[i]].push_back(i);
         }
         for(auto & it : mp){
-            vector<int> curr = it.second;
+            vector<int>& curr = it.second;
             if(curr.size()<3) continue;
             int x = curr.size();
             int i =0;
