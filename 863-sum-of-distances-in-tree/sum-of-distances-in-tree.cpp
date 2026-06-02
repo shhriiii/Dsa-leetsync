@@ -42,7 +42,7 @@ public:
                 dfs(ngbr , node);
                 count[node]+=count[ngbr];
                 ans[0]
-                += ans[ngbr]+count[ngbr];
+                += count[ngbr];
             }
         }
     }
