@@ -7,6 +7,7 @@ public:
         queue<pair<pair<int, int>, int>> q;
         queue<pair<int, int>> qq;
         bool found = false;
+        //  point to be noted is tht the bfs is done once only so overall tc would be n^2 not n^4
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (grid[i][j] == 1 && vis[i][j] == 0) {
